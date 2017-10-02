@@ -22,9 +22,12 @@ func main() {
 
 	app.Use(recover.New())
 	app.Use(logger.New())
+	app.StaticWeb("/dist", "./views/dist")
+	app.RegisterView(iris.HTML("./views", ".html"))
 
 	app.Handle("GET", "/", func(ctx iris.Context) {
-		ctx.HTML("<h1> Welcome </h1>")
+		ctx.Gzip(true)
+		ctx.View("index.html")
 	})
 
 	developerAPI := app.Party("/developers")
