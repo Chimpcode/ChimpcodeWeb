@@ -40,7 +40,7 @@ func main() {
 			fmt.Println(&newUser)
 
 			dbguardian.WriteData(&newUser)
-			ctx.JSON(iris.Map{"message": "Thanks for subscribing!", "status": "new user added"})
+			ctx.JSON(iris.Map{"message": "Gracias por suscribirte!", "status": "new user added"})
 		})
 
 		developerAPI.Get("/", func(ctx iris.Context) {
