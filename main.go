@@ -14,16 +14,24 @@ import (
 func main() {
 
 	var dbpath string
+	var renderpath string
 
 	flag.StringVar(&dbpath, "DBPATH", "", "db path to storage subscribers")
+	flag.StringVar(&renderpath, "STATICFILES", "", "location of html and js files")
 	flag.Parse()
 
 	app := iris.New()
 
 	app.Use(recover.New())
 	app.Use(logger.New())
-	app.StaticWeb("/dist", "./views/dist")
-	app.RegisterView(iris.HTML("./views", ".html"))
+
+	if renderpath == "" {
+		app.RegisterView(iris.HTML("./views", ".html"))
+		app.StaticWeb("/dist", "./views/dist")
+	} else {
+		app.RegisterView(iris.HTML(renderpath, ".html"))
+		app.StaticWeb("/dist", renderpath+"/dist")
+	}
 
 	app.Handle("GET", "/", func(ctx iris.Context) {
 		ctx.Gzip(true)
