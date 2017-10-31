@@ -28,9 +28,11 @@ func main() {
 	if renderpath == "" {
 		app.RegisterView(iris.HTML("./views", ".html"))
 		app.StaticWeb("/dist", "./views/dist")
+		app.StaticWeb("/public", "./views/public")
 	} else {
 		app.RegisterView(iris.HTML(renderpath, ".html"))
 		app.StaticWeb("/dist", renderpath+"/dist")
+		app.StaticWeb("/dist", renderpath+"/public")
 	}
 
 	app.Handle("GET", "/", func(ctx iris.Context) {
